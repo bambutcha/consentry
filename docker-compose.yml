@@ -26,7 +26,6 @@ services:
       LOG_LEVEL: info
     ports:
       - "3000:3000"
-    command: sh -c "node --import tsx/esm src/infrastructure/db/migrate.ts up && node --import tsx/esm src/infrastructure/db/seed.ts && node dist/main.js"
 
 volumes:
   consentry-pgdata:
