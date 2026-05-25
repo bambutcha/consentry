@@ -1,0 +1,38 @@
+{
+  "name": "consentry",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Consentry — сервис управления согласиями и предпочтениями уведомлений: дефолты, индивидуальные настройки пользователя, глобальные политики, quiet hours.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/main.js",
+    "dev": "tsx watch src/main.ts",
+    "migrate": "tsx src/infrastructure/db/migrate.ts up",
+    "migrate:down": "tsx src/infrastructure/db/migrate.ts down",
+    "seed": "tsx src/infrastructure/db/seed.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "fastify": "^4.28.1",
+    "kysely": "^0.27.4",
+    "luxon": "^3.5.0",
+    "pg": "^8.13.0",
+    "pino": "^9.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.4.2",
+    "@types/node": "^20.16.10",
+    "@types/pg": "^8.11.10",
+    "testcontainers": "^10.13.2",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
+  }
+}

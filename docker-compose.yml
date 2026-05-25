@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: consentry
+      POSTGRES_PASSWORD: consentry
+      POSTGRES_DB: consentry
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U consentry"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    volumes:
+      - consentry-pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://consentry:consentry@postgres:5432/consentry
+      HTTP_PORT: "3000"
+      LOG_LEVEL: info
+    ports:
+      - "3000:3000"
+    command: sh -c "node --import tsx/esm src/infrastructure/db/migrate.ts up && node --import tsx/esm src/infrastructure/db/seed.ts && node dist/main.js"
+
+volumes:
+  consentry-pgdata:
